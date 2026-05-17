@@ -275,9 +275,18 @@ def fetch_earnings_calendar():
 
 def parse_nasdaq_excel(uploaded_file):
     try:
+        uploaded_file.seek(0)
         df = pd.read_excel(uploaded_file, engine="openpyxl")
-    except:
-        df = pd.read_csv(uploaded_file)
+    except Exception:
+        uploaded_file.seek(0)   # ← reset pointer before CSV fallback
+        try:
+            df = pd.read_csv(uploaded_file)
+        except pd.errors.EmptyDataError:
+            st.error("The uploaded file appears to be empty or unreadable. Please re-download it from NASDAQ and try again.")
+            st.stop()
+        except Exception as e:
+            st.error(f"Could not parse file: {e}")
+            st.stop()
     
     # Normalize column names
     df.columns = [c.strip() for c in df.columns]
