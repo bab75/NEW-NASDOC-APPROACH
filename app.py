@@ -667,11 +667,14 @@ with tab1:
                     texttemplate="<b>%{label}</b><br>%{customdata[0]:.2f}%",
                     hovertemplate="<b>%{label}</b><br>Avg Change: %{customdata[0]:.2f}%<br>Stocks: %{customdata[1]}<extra></extra>",
                     marker=dict(
-                        colors=sec_perf["Avg % Change"],
-                        colorscale=[[0, "#7f1d1d"], [0.5, "#1e293b"], [1, "#052e16"]],
-                        showscale=True,
-                        colorbar=dict(title="Avg %", tickfont=dict(color="#94a3b8"), titlefont=dict(color="#94a3b8"))
+                    colors=sec_perf["Avg % Change"],
+                    colorscale=[[0, "#7f1d1d"], [0.5, "#1e293b"], [1, "#052e16"]],
+                    showscale=True,
+                    colorbar=dict(
+                        title=dict(text="Avg %", font=dict(color="#94a3b8")),
+                        tickfont=dict(color="#94a3b8")
                     )
+                )
                 ))
                 fig3.update_layout(
                     template="plotly_dark",
