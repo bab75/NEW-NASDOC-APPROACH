@@ -1094,15 +1094,24 @@ with tab4:
                 sentiment = sa.polarity_scores(title)["compound"]
                 sent_badge = '<span class="badge badge-green">BULLISH</span>' if sentiment > 0.05 else ('<span class="badge badge-red">BEARISH</span>' if sentiment < -0.05 else '<span class="badge badge-blue">NEUTRAL</span>')
 
+                if sentiment > 0.05:
+                    badge_html = '<span style="display:inline-block;padding:2px 10px;border-radius:999px;font-size:0.75rem;font-weight:600;background:#052e16;color:#34d399;border:1px solid #166534;">BULLISH</span>'
+                elif sentiment < -0.05:
+                    badge_html = '<span style="display:inline-block;padding:2px 10px;border-radius:999px;font-size:0.75rem;font-weight:600;background:#2d0b0b;color:#f87171;border:1px solid #7f1d1d;">BEARISH</span>'
+                else:
+                    badge_html = '<span style="display:inline-block;padding:2px 10px;border-radius:999px;font-size:0.75rem;font-weight:600;background:#0c1a3a;color:#38bdf8;border:1px solid #1e3a5f;">NEUTRAL</span>'
+                
+                pub_html = f'<span>· {pub[:16]}</span>' if pub else ''
+            
                 st.markdown(f"""
                 <div class="news-card">
                   <a href="{link}" target="_blank" style="text-decoration:none">
                     <div class="news-title">{title[:140]}</div>
                   </a>
-                  <div class="news-meta" style="display:flex; align-items:center; gap:8px; margin-top:6px;">
+                  <div class="news-meta" style="display:flex;align-items:center;gap:8px;margin-top:6px;">
                     <span>{source}</span>
-                    {f'<span>· {pub[:16]}</span>' if pub else ''}
-                    {sent_badge}
+                    {pub_html}
+                    {badge_html}
                   </div>
                 </div>
                 """, unsafe_allow_html=True)
