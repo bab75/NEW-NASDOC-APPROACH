@@ -1079,40 +1079,40 @@ with tab4:
             articles = fetch_news_rss(query_map.get(news_category, ""))
 
     if articles:
-    from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
-    sa = SentimentIntensityAnalyzer()
-
-    n1, n2 = st.columns(2)
-    for i, article in enumerate(articles[:20]):
-        col = n1 if i % 2 == 0 else n2
-        with col:
-            title  = article.get("title", "") or ""
-            link   = article.get("link", "#") or "#"
-            source = article.get("source", "") or ""
-            pub    = article.get("published", "") or ""
-
-            sentiment = sa.polarity_scores(title)["compound"]
-
-            if sentiment > 0.05:
-                badge = '<span style="display:inline-block;padding:2px 10px;border-radius:999px;font-size:0.75rem;font-weight:600;background:#052e16;color:#34d399;border:1px solid #166534;">BULLISH</span>'
-            elif sentiment < -0.05:
-                badge = '<span style="display:inline-block;padding:2px 10px;border-radius:999px;font-size:0.75rem;font-weight:600;background:#2d0b0b;color:#f87171;border:1px solid #7f1d1d;">BEARISH</span>'
-            else:
-                badge = '<span style="display:inline-block;padding:2px 10px;border-radius:999px;font-size:0.75rem;font-weight:600;background:#0c1a3a;color:#38bdf8;border:1px solid #1e3a5f;">NEUTRAL</span>'
-
-            pub_span = f'<span style="color:#475569;">· {pub[:16]}</span>' if pub else ''
-
-            card = (
-                f'<div class="news-card">'
-                f'<a href="{link}" target="_blank" style="text-decoration:none">'
-                f'<div class="news-title">{title[:140]}</div>'
-                f'</a>'
-                f'<div style="display:flex;align-items:center;gap:8px;margin-top:6px;font-size:0.75rem;color:#475569;">'
-                f'<span>{source}</span>{pub_span}{badge}'
-                f'</div>'
-                f'</div>'
-            )
-            st.markdown(card, unsafe_allow_html=True)
+        from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
+        sa = SentimentIntensityAnalyzer()
+    
+        n1, n2 = st.columns(2)
+        for i, article in enumerate(articles[:20]):
+            col = n1 if i % 2 == 0 else n2
+            with col:
+                title  = article.get("title", "") or ""
+                link   = article.get("link", "#") or "#"
+                source = article.get("source", "") or ""
+                pub    = article.get("published", "") or ""
+    
+                sentiment = sa.polarity_scores(title)["compound"]
+    
+                if sentiment > 0.05:
+                    badge = '<span style="display:inline-block;padding:2px 10px;border-radius:999px;font-size:0.75rem;font-weight:600;background:#052e16;color:#34d399;border:1px solid #166534;">BULLISH</span>'
+                elif sentiment < -0.05:
+                    badge = '<span style="display:inline-block;padding:2px 10px;border-radius:999px;font-size:0.75rem;font-weight:600;background:#2d0b0b;color:#f87171;border:1px solid #7f1d1d;">BEARISH</span>'
+                else:
+                    badge = '<span style="display:inline-block;padding:2px 10px;border-radius:999px;font-size:0.75rem;font-weight:600;background:#0c1a3a;color:#38bdf8;border:1px solid #1e3a5f;">NEUTRAL</span>'
+    
+                pub_span = f'<span style="color:#475569;">· {pub[:16]}</span>' if pub else ''
+    
+                card = (
+                    f'<div class="news-card">'
+                    f'<a href="{link}" target="_blank" style="text-decoration:none">'
+                    f'<div class="news-title">{title[:140]}</div>'
+                    f'</a>'
+                    f'<div style="display:flex;align-items:center;gap:8px;margin-top:6px;font-size:0.75rem;color:#475569;">'
+                    f'<span>{source}</span>{pub_span}{badge}'
+                    f'</div>'
+                    f'</div>'
+                )
+                st.markdown(card, unsafe_allow_html=True)
     else:
         st.info("No articles loaded. Check your internet connection.")
 
